@@ -1,5 +1,3 @@
-#根据过去24小时内的天气状况和污染情况预测下一小时的污染情况
-#预测如上所述的下一小时的污染，并给出下一小时的“预期”天气条件
 from math import sqrt
 import numpy
 from numpy import concatenate
@@ -73,7 +71,7 @@ scaled = scaler.fit_transform(values)
 # 将数据集转换为监督学习问题
 reframed = series_to_supervised(scaled, 1, 1)
 #然后去除待预测小时的天气变量（t）。#删除不预测的列
-reframed.drop(reframed.columns[[5, 6, 7, 8]], axis=1, inplace=True)
+reframed.drop(reframed.columns[[1, 2, 3, 4, 9]], axis=1, inplace=True)
 print(reframed.head())
 
 # 分成训练集和测试集(用第1年作为训练集，剩余4年为测试集)
@@ -103,14 +101,14 @@ model = Sequential()
 # history = model.fit(train_X, train_y, epochs=100, batch_size=60, validation_data=(test_X, test_y), verbose=2,
 #                     shuffle=False)
 # # 绘制训练和测试损失
-# pyplot.plot(history.history['loss'], label='train')
-# pyplot.plot(history.history['val_loss'], label='test')
-# pyplot.legend()
-# pyplot.show()
+pyplot.plot(history.history['loss'], label='train')
+pyplot.plot(history.history['val_loss'], label='test')
+pyplot.legend()
+pyplot.show()
 
 #模型保存
 #model.save('ExchangaRateModel_80.h5')   # HDF5 file, you have to pip3 install h5py if don't have it
-model = load_model('ExchangaRateModel_63.h5')
+#model = load_model('ExchangaRateModel_63.h5')
 
 #模型拟合后，我们可以预测整个测试数据集
 # 做预测
